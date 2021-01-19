@@ -150,29 +150,45 @@ vector<string> check_eat(string color) {
 				while(i1 < 7 || j1 < 7 || i2 > 0 || j2 > 0) {
 					if (i1 < 7) {
 						if (j1 < 7) {
-							if (field[i][j] == 2 || field[i][j] == 4 && field[i1 + 1][j1 + 1] == 0) {
-								int j3 = j + 1, j4 = j1 + 2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i1 + 1) + to_string(j4));
+							if (field[i1][j1] == 2 || field[i1][j1] == 4 && field[i1 + 1][j1 + 1] == 0) {
+								int j3 = j + 1, j4 = j1 + 2, i4 = i1 + 1;
+								while (i4 < 8 && j4 < 9 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4++;
+									j4++;
+								}
 							}
 						}
 						if (j2 > 0) {
-							if (field[i][j] == 2 || field[i][j] == 4 && field[i1 + 1][j2 - 1] == 0) {
-								int j3 = j + 1, j4 = j2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i1 + 1) + to_string(j4));
+							if (field[i1][j2] == 2 || field[i1][j2] == 4 && field[i1 + 1][j2 - 1] == 0) {
+								int j3 = j + 1, j4 = j2, i4 = i1 + 1;
+								while(i4 < 8 && j4 > 0 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4++;
+									j4--;
+								}
 							}
 						}
 					}
 					if (i2 > 0) {
 						if (j1 < 7) {
-							if (field[i][j] == 2 || field[i][j] == 4 && field[i2 - 1][j1 + 1] == 0) {
-								int j3 = j + 1, j4 = j1 + 2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i2 - 1) + to_string(j4));
+							if (field[i2][j1] == 2 || field[i2][j1] == 4 && field[i2 - 1][j1 + 1] == 0) {
+								int j3 = j + 1, j4 = j1 + 2, i4 = i2 - 1;
+								while (i4 >= 0 && j4 < 9 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4--;
+									j4++;
+								}
 							}
 						}
 						if (j2 > 0) {
-							if (field[i][j] == 2 || field[i][j] == 4 && field[i2 - 1][j2 - 1] == 0) {
-								int j3 = j + 1, j4 = j2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i2 - 1) + to_string(j4));
+							if (field[i2][j2] == 2 || field[i2][j2] == 4 && field[i2 - 1][j2 - 1] == 0) {
+								int j3 = j + 1, j4 = j2, i4 = i2 - 1;
+								while (i4 >= 0 && j4 > 0 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4--;
+									j4--;
+								}
 							}
 						}
 					}
@@ -187,29 +203,44 @@ vector<string> check_eat(string color) {
 				while(i1 < 7 || j1 < 7 || i2 > 0 || j2 > 0) {
 					if (i1 < 7) {
 						if (j1 < 7) {
-							if (field[i][j] == 1 || field[i][j] == 3 && field[i1 + 1][j1 + 1] == 0) {
-								int j3 = j + 1, j4 = j1 + 2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i1 + 1) + to_string(j4));
+							if (field[i1][j1] == 1 || field[i1][j1] == 3 && field[i1 + 1][j1 + 1] == 0) {
+								int j3 = j + 1, j4 = j1 + 2, i4 = i1 + 1;
+								while (i4 < 8 && j4 < 9 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4++; j4++;
+								}
 							}
 						}
 						if (j2 > 0) {
-							if (field[i][j] == 1 || field[i][j] == 3 && field[i1 + 1][j2 - 1] == 0) {
-								int j3 = j + 1, j4 = j2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i1 + 1) + to_string(j4));
+							if (field[i1][j2] == 1 || field[i1][j2] == 3 && field[i1 + 1][j2 - 1] == 0) {
+								int j3 = j + 1, j4 = j2, i4 = i1 + 1;
+								while(i4 < 8 && j4 > 0 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4++;
+									j4--;
+								}
 							}
 						}
 					}
 					if (i2 > 0) {
 						if (j1 < 7) {
-							if (field[i][j] == 1 || field[i][j] == 3 && field[i2 - 1][j1 + 1] == 0) {
-								int j3 = j + 1, j4 = j1 + 2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i2 - 1) + to_string(j4));
+							if (field[i2][j1] == 1 || field[i2][j1] == 3 && field[i2 - 1][j1 + 1] == 0) {
+								int j3 = j + 1, j4 = j1 + 2, i4 = i2 - 1;
+								while (i4 >= 0 && j4 < 9 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4--;
+									j4++;
+								}
 							}
 						}
 						if (j2 > 0) {
-							if (field[i][j] == 1 || field[i][j] == 3 && field[i2 - 1][j2 - 1] == 0) {
-								int j3 = j + 1, j4 = j2;
-								ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i2 - 1) + to_string(j4));
+							if (field[i2][j2] == 1 || field[i2][j2] == 3 && field[i2 - 1][j2 - 1] == 0) {
+								int j3 = j + 1, j4 = j2, i4 = i2 - 1;
+								while (i4 >= 0 && j4 > 0 && field[i4][j4 - 1] == 0) {
+									ans.push_back(char(int('a') + i) + to_string(j3) + char(int('a') + i4) + to_string(j4));
+									i4--;
+									j4--;
+								}
 							}
 						}
 					}
