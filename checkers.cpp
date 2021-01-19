@@ -10,10 +10,6 @@ vector<vector<int> > field;
 string player = "none";
 
 
-int check_lose() {
-	return 0;
-}
-
 int check_command(string from, string to, string color) {
 	if (from.size() != 2 || to.size() != 2)
 		return 1;
@@ -315,18 +311,215 @@ void go(string color) {
 		}	
 					
 	} else {
+		string from = "", to = "";
+		vector<string> ch = check_eat(color);
+		if (ch.size() != 0) {
+			from = ch[0].substr(0, 2);
+			to = ch[0].substr(2, 2);
+			change_field(from, to);
+			int k = 1;
+			while (k) {
+				from = to;
+				vector<string> ch = check_eat(color);
+				vector<string> options = {};
+				for (int i = 0; i < ch.size(); ++i) {
+					string str = ch[i].substr(0, 2);
+					if (from == str) {
+						str = ch[i].substr(2, 2);
+						options.push_back(str);
+					}
+				}
+				if (options.size() == 0)
+					k = 0;
+				else {
+					to = options[0];
+					change_field(from, to);
+				}
+			}
+		}
+		else {
+			if (color == "white") {
+				for (int i = 0; i < 8; ++i)
+					for (int j = 0; j < 8; ++j) {
+						if (field[i][j] == 1 || field[i][j] == 3) {
+							if (i - 1 >= 0) {
+								if (j - 1 >= 0)  {
+									if (field[i - 1][j - 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i - 1) + to_string(j);
+									}
+								}
+								if (j + 1 <= 7)  {
+									if (field[i - 1][j + 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i - 1) + to_string(j + 2);
+									}
+								}
+							}
+						}
+						if (field[i][j] == 3) {
+							if (i + 1 <= 7) {
+								if (j - 1 >= 0)  {
+									if (field[i + 1][j - 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i + 1) + to_string(j);
+									}
+								}
+								if (j + 1 <= 7)  {
+									if (field[i + 1][j + 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i + 1) + to_string(j + 2);
+									}
+								}
+							}
+						}
+						
+					}
+			}
+			if (color == "black") {
+				for (int i = 0; i < 8; ++i)
+					for (int j = 0; j < 8; ++j) {
+						if (field[i][j] == 2 || field[i][j] == 4) {
+							if (i + 1 <= 7) {
+								if (j - 1 >= 0)  {
+									if (field[i + 1][j - 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i + 1) + to_string(j);
+									}
+								}
+								if (j + 1 <= 7)  {
+									if (field[i + 1][j + 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i + 1) + to_string(j + 2);
+									}
+								}
+							}
+						}
+						if (field[i][j] == 4) {
+							if (i - 1 >= 0) {
+								if (j - 1 >= 0)  {
+									if (field[i - 1][j - 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i - 1) + to_string(j);
+									}
+								}
+								if (j + 1 <= 7)  {
+									if (field[i - 1][j + 1] == 0) {
+										from = char(int('a') + i) + to_string(j + 1);
+										to = char(int('a') + i - 1) + to_string(j + 2);
+									}
+								}
+							}
+						}
+						
+					}
+			}
+			change_field(from, to);
+		}
 		
 		for (int i = 0; i < 8; ++i) {
-		cout << char(int('a') + i)<< "   ";
-		for (int j = 0; j < 8; ++j) 
-			cout << field[i][j] << ' ';
-		cout << endl ;
-	}
-	cout <<endl << ' ' << "   "<< '1' << " 2" << " 3" << " 4" << " 5" << " 6" << " 7" << " 8" << endl<<endl;
+			cout << char(int('a') + i)<< "   ";
+			for (int j = 0; j < 8; ++j) 
+				cout << field[i][j] << ' ';
+			cout << endl ;
+		}
+		cout <<endl << ' ' << "   "<< '1' << " 2" << " 3" << " 4" << " 5" << " 6" << " 7" << " 8" << endl<<endl;
 	}
 }
 
-
+int check_lose() {
+	int count_black = 0, count_white = 0;
+	for (int i = 0; i < 8; ++i)
+		for (int j = 0; j < 8; ++j) {
+			if (field[i][j] == 1 || field[i][j] == 3)
+				count_white++;
+			if (field[i][j] == 2 || field[i][j] == 4)
+				count_black++;
+		}
+	if (count_white == 0)
+		return 1;
+	if (count_black == 0)
+		return 2;
+	vector<string> ch1 = check_eat("white");
+	vector<string> ch2 = check_eat("black");
+	int any = 0;
+	for (int i = 0; i < 8; ++i)
+		for (int j = 0; j < 8; ++j) {
+			if (field[i][j] == 1 || field[i][j] == 3) {
+				if (i - 1 >= 0) {
+					if (j - 1 >= 0) {
+						if (field[i - 1][j - 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+					if (j + 1 <= 7) {
+						if (field[i - 1][j + 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+				}
+			}
+			if (field[i][j] == 3) {
+				if (i + 1 <= 7) {
+					if (j - 1 >= 0) {
+						if (field[i + 1][j - 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+					if (j + 1 <= 7) {
+						if (field[i + 1][j + 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+	if (!any && !ch1.size())
+		return 1;
+	any = 0;
+	for (int i = 0; i < 8; ++i)
+		for (int j = 0; j < 8; ++j) {
+			if (field[i][j] == 2 || field[i][j] == 4) {
+				if (i + 1 <= 7) {
+					if (j - 1 >= 0) {
+						if (field[i + 1][j - 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+					if (j + 1 <= 7) {
+						if (field[i + 1][j + 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+				}
+			}
+			if (field[i][j] == 4) {
+				if (i - 1 >= 0) {
+					if (j - 1 >= 0) {
+						if (field[i - 1][j - 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+					if (j + 1 <= 7) {
+						if (field[i - 1][j + 1] == 0) {
+							any = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+	if (!any && !ch2.size())
+		return 2;
+	return 0;
+}
 
 int main() {
 	field.push_back({0, 2, 0, 2, 0, 2, 0, 2});
@@ -349,11 +542,21 @@ int main() {
 		cin >> player;
 	}
 	int lose = 0;
-	while (!(lose = check_lose())) {
+	while (!lose) {
 		go("white");
+		lose = check_lose();
 		go("black");
+		lose = check_lose();
 	}
-	cout << lose;
-
+	if (lose == 1)
+		if (player == "white")
+			cout << "You lose" << endl;
+		else
+			cout << "You win" << endl;
+	else
+		if (player == "white")
+			cout << "You win" << endl;
+		else
+			cout << "You lose" << endl;
 	return 0;
 }
