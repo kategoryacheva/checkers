@@ -10,8 +10,6 @@ using namespace std;
 vector<vector<int> > field;
 string player = "none";
 
-void dfs (string v, vector<string> ans) {
-}
 
 int check_command(string from, string to, string color) {
 	if (from.size() != 2 || to.size() != 2)
@@ -111,7 +109,7 @@ vector<string> check_eat(string color) {
 					}
 				}
 			}
-			if (color == "black" && (field[i][j] == 2 || field[i][j] == 2)) {
+			if (color == "black" && (field[i][j] == 2 || field[i][j] == 4)) {
 				if (i - 2 >= 0) {
 					if (j - 2 >= 0) {
 						if (field[i - 2][j - 2] == 0)
@@ -375,21 +373,6 @@ void go(string color) {
 					change_field(from, to);
 				}
 			}
-			/*vector<vector<bool> > used = {};
-			for (int i = 0; i < 8; ++i) {
-				vector<bool> v(8, false);
-				used.push_back(v);
-			}
-			vector<string> ans(32, "");
-			set<string> vert;
-			for (int i = 0; i < ch.size(); ++i) {
-				string tmp = ch[i].substr(0, 2);
-				vert.insert(tmp);
-			}
-			string maximum = "";
-			for (int i = vert.begin(), i != vert.end(); ++i) {
-				dfs(*i, used, ans);
-			}	*/
 		}
 		else {
 			vector<string> options={};
