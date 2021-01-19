@@ -268,6 +268,7 @@ void go(string color) {
 			cout << "Your move (from to): " << endl;
 			cin >> from >> to;
 		}
+		vector<string> ch = check_eat(color);
 		while(move(from, to, color)) {
 			from = "", to = "";
 			cout << "You must eat" << endl;
@@ -282,11 +283,11 @@ void go(string color) {
 		}
 		cout <<endl << ' ' << "   "<< '1' << " 2" << " 3" << " 4" << " 5" << " 6" << " 7" << " 8" << endl<<endl;
 		int k = 1;
-		if (abs(int(from[0]) - int(to[0])) < 2)
+		if (ch.size() == 0)
 			k = 0;
 		while(k) {
 			from = to;
-			vector<string> ch = check_eat(color);
+			ch = check_eat(color);
 			vector<string> options = {};
 			for (int i = 0; i < ch.size(); ++i) {
 				string str = ch[i].substr(0, 2);
