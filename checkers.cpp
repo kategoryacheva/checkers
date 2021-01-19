@@ -468,7 +468,7 @@ void go(string color) {
 				}
 			}
 			if (from == "") {
-				int k = rand() % 8;
+				int k = rand() % options.size();
 				from = options[k].substr(0, 2);
 				to = options[k].substr(2, 2);
 			}
