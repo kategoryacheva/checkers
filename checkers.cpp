@@ -3,12 +3,15 @@
 #include <string>
 #include <cmath>
 #include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 
 vector<vector<int> > field;
 string player = "none";
 
+void dfs (string v, vector<string> ans) {
+}
 
 int check_command(string from, string to, string color) {
 	if (from.size() != 2 || to.size() != 2)
@@ -35,8 +38,8 @@ int check_command(string from, string to, string color) {
 		return 2;
 	if (abs(int(from[1]) - int(to[1])) == 2 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 1) {
 		int coord1 = (int(from[0]) + int(to[0])) / 2 - int('a');
-		int coord2 = (int(from[1]) + int(to[0])) / 2 - int('1');
-		if (field[coord1][coord2] == 1 || field[coord1][coord2] == 3)
+		int coord2 = (int(from[1]) + int(to[1])) / 2 - int('1');
+		if (field[coord1][coord2] == 1 || field[coord1][coord2] == 3 || field[coord1][coord2] == 0)
 			return 2;
 		if (field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0)
 			return 2;
@@ -45,8 +48,8 @@ int check_command(string from, string to, string color) {
 		return 2;
 	if (abs(int(from[1]) - int(to[1])) == 2 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 2) {
 		int coord1 = (int(from[0]) + int(to[0])) / 2 - int('a');
-		int coord2 = (int(from[1]) + int(to[0])) / 2 - int('1');
-		if (field[coord1][coord2] == 2 || field[coord1][coord2] == 4)
+		int coord2 = (int(from[1]) + int(to[1])) / 2 - int('1');
+		if (field[coord1][coord2] == 2 || field[coord1][coord2] == 4 || field[coord1][coord2] == 0)
 			return 2;
 		if (field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0)
 			return 2;
@@ -341,8 +344,24 @@ void go(string color) {
 					change_field(from, to);
 				}
 			}
+			/*vector<vector<bool> > used = {};
+			for (int i = 0; i < 8; ++i) {
+				vector<bool> v(8, false);
+				used.push_back(v);
+			}
+			vector<string> ans(32, "");
+			set<string> vert;
+			for (int i = 0; i < ch.size(); ++i) {
+				string tmp = ch[i].substr(0, 2);
+				vert.insert(tmp);
+			}
+			string maximum = "";
+			for (int i = vert.begin(), i != vert.end(); ++i) {
+				dfs(*i, used, ans);
+			}	*/
 		}
 		else {
+			vector<string> options={};
 			if (color == "white") {
 				for (int i = 0; i < 8; ++i)
 					for (int j = 0; j < 8; ++j) {
@@ -352,12 +371,14 @@ void go(string color) {
 									if (field[i - 1][j - 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i - 1) + to_string(j);
+										options.push_back(from+to);
 									}
 								}
 								if (j + 1 <= 7)  {
 									if (field[i - 1][j + 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i - 1) + to_string(j + 2);
+										options.push_back(from+to);
 									}
 								}
 							}
@@ -368,12 +389,14 @@ void go(string color) {
 									if (field[i + 1][j - 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i + 1) + to_string(j);
+										options.push_back(from+to);
 									}
 								}
 								if (j + 1 <= 7)  {
 									if (field[i + 1][j + 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i + 1) + to_string(j + 2);
+										options.push_back(from+to);
 									}
 								}
 							}
@@ -390,12 +413,14 @@ void go(string color) {
 									if (field[i + 1][j - 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i + 1) + to_string(j);
+										options.push_back(from+to);
 									}
 								}
 								if (j + 1 <= 7)  {
 									if (field[i + 1][j + 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i + 1) + to_string(j + 2);
+										options.push_back(from+to);
 									}
 								}
 							}
@@ -406,18 +431,32 @@ void go(string color) {
 									if (field[i - 1][j - 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i - 1) + to_string(j);
+										options.push_back(from+to);
 									}
 								}
 								if (j + 1 <= 7)  {
 									if (field[i - 1][j + 1] == 0) {
 										from = char(int('a') + i) + to_string(j + 1);
 										to = char(int('a') + i - 1) + to_string(j + 2);
+										options.push_back(from+to);
 									}
 								}
 							}
 						}
 						
 					}
+			}
+			for (int i = 0; i < options.size(); ++i) {
+				if (options[i][3] == '0' || options[i][3] == '7') {
+					from = options[i].substr(0, 2);
+					to = options[i].substr(2, 2);
+					break;
+				}
+			}
+			if (from == "") {
+				int k = rand() % 8;
+				from = options[k].substr(0, 2);
+				to = options[k].substr(2, 2);
 			}
 			change_field(from, to);
 		}
