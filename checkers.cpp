@@ -282,6 +282,8 @@ void go(string color) {
 		}
 		cout <<endl << ' ' << "   "<< '1' << " 2" << " 3" << " 4" << " 5" << " 6" << " 7" << " 8" << endl<<endl;
 		int k = 1;
+		if (abs(int(from[0]) - int(to[0])) < 2)
+			k = 0;
 		while(k) {
 			from = to;
 			vector<string> ch = check_eat(color);
