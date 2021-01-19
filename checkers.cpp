@@ -29,9 +29,9 @@ int check_command(string from, string to, string color) {
 		return 2;
 	if (abs(int(from[1]) - int(to[1])) > 2 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] < 3)
 		return 2;
-	if (abs(int(from[1]) - int(to[1])) == 1 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 1 && (int(from[1]) - int(to[1]) > 0 || field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0))
+	if (abs(int(from[1]) - int(to[1])) == 1 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 1 && (int(from[0]) - int(to[0]) < 0 || field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0))
 		return 2;
-	if (abs(int(from[1]) - int(to[1])) == 1 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 2 && (int(from[1]) - int(to[1]) < 0 || field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0))
+	if (abs(int(from[1]) - int(to[1])) == 1 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 2 && (int(from[0]) - int(to[0]) > 0 || field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0))
 		return 2;
 	if (abs(int(from[1]) - int(to[1])) == 2 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 1) {
 		int coord1 = (int(from[0]) + int(to[0])) / 2 - int('a');
@@ -41,6 +41,8 @@ int check_command(string from, string to, string color) {
 		if (field[int(to[0]) - int('a')][int(to[1]) - int('1')] != 0)
 			return 2;
 	}
+	if (abs(int(from[1]) - int(to[1])) != abs(int(from[0]) - int(to[0])))
+		return 2;
 	if (abs(int(from[1]) - int(to[1])) == 2 && field[int(from[0]) - int('a')][int(from[1]) - int('1')] == 2) {
 		int coord1 = (int(from[0]) + int(to[0])) / 2 - int('a');
 		int coord2 = (int(from[1]) + int(to[0])) / 2 - int('1');
